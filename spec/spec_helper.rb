@@ -3,7 +3,7 @@ require 'simplecov'
 SimpleCov.start do
   SimpleCov.minimum_coverage_by_file 95
 end
-require 'SimpleConfig'
+require 'simple_config'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

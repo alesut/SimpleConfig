@@ -2,8 +2,9 @@ require 'yaml'
 require 'erb'
 require 'ostruct'
 
+# Module provides access to Config
 module SimpleConfig
-  def self.method_missing(method, *args, &block)
+  def self.method_missing(method)
     config.send(method)
   end
 
