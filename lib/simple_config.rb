@@ -9,7 +9,7 @@ module SimpleConfig
   end
 
   def self.config
-    path = File.expand_path('../../.SimpleConfig.yaml', __FILE__)
+    path = File.expand_path(Dir.pwd + '/.SimpleConfig.yml')
     @config ||= YAML.load(ERB.new(File.read(path)).result)
     create_struct(@config)
   end
