@@ -4,6 +4,13 @@ Welcome to your new gem! In this directory, you'll find the files you need to be
 
 TODO: Delete this and the text above, and describe your gem
 
+## Code Status
+* [![Code Climate](https://codeclimate.com/github/onetwotrip/SimpleConfig/badges/gpa.svg)](https://codeclimate.com/github/onetwotrip/SimpleConfig)
+* [![Test Coverage](https://codeclimate.com/github/onetwotrip/SimpleConfig/badges/coverage.svg)](https://codeclimate.com/github/onetwotrip/SimpleConfig/coverage)
+* [![Issue Count](https://codeclimate.com/github/onetwotrip/SimpleConfig/badges/issue_count.svg)](https://codeclimate.com/github/onetwotrip/SimpleConfig)
+* [![Build Status](https://travis-ci.org/onetwotrip/SimpleConfig.svg?branch=master)](https://travis-ci.org/onetwotrip/SimpleConfig)
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -32,5 +39,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/SimpleConfig.
+Bug reports and pull requests are welcome on GitHub at https://github.com/onetwotrip/SimpleConfig.
 
