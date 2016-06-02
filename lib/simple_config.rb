@@ -4,6 +4,13 @@ require 'ostruct'
 
 # Module provides access to Config
 module SimpleConfig
+  # Add methods to Array class
+  class Array < ::Array
+    def to_sql
+      map { |x| '"' + x + '"' }.join ','
+    end
+  end
+
   def self.method_missing(method)
     config.send(method)
   end
@@ -17,7 +24,11 @@ module SimpleConfig
   def self.create_struct(hash)
     struct = OpenStruct.new
     hash.each do |key, value|
-      value = create_struct(value) if value.instance_of? Hash
+      value = case value
+              when Hash then create_struct(value)
+              when ::Array then Array.new(value)
+              else value
+              end
       struct.send("#{key}=", value)
     end
     struct
