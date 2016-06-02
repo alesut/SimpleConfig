@@ -5,7 +5,7 @@ group :test do
   gem 'codeclimate-test-reporter'
   gem 'rake'
   gem 'rspec'
-  gem 'rubocop', '0.35.1'
+  gem 'rubocop'
 end
 
 # Specify your gem's dependencies in SimpleConfig.gemspec
