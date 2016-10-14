@@ -11,4 +11,4 @@
 *.swp
 *.swo
 rspec.xml
-.SimpleConfig.yaml
+.SimpleConfig.yml

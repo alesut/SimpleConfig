@@ -4,33 +4,40 @@ require 'ostruct'
 
 # Module provides access to Config
 module SimpleConfig
-  # Add methods to Array class
-  class Array < ::Array
-    def to_sql
-      map { |x| '"' + x + '"' }.join ','
+  # Config class
+  class Config
+    def initialize
+      @config = yml_conf.merge env_conf
+    end
+
+    def get_struct(config = @config)
+      struct = OpenStruct.new
+      config.each do |key, value|
+        value = get_struct(value) if value.instance_of? Hash
+        struct.send("#{key}=", value)
+      end
+      struct
+    end
+
+    private
+
+    def yml_conf
+      path = File.expand_path(Dir.pwd + '/.SimpleConfig.yml')
+      File.file?(path) ? YAML.load(ERB.new(File.read(path)).result) : {}
+    end
+
+    def env_conf
+      conf = {}
+      ENV.each do |key, value|
+        hash = key.split('_').reverse.inject(value) { |a, e| { e.downcase => a } }
+        conf.merge! hash if hash.is_a?(Hash)
+      end
+      conf
     end
   end
 
   def self.method_missing(method)
-    config.send(method)
-  end
-
-  def self.config
-    path = File.expand_path(Dir.pwd + '/.SimpleConfig.yml')
-    @config ||= YAML.load(ERB.new(File.read(path)).result)
-    create_struct(@config)
-  end
-
-  def self.create_struct(hash)
-    struct = OpenStruct.new
-    hash.each do |key, value|
-      value = case value
-              when Hash then create_struct(value)
-              when ::Array then Array.new(value)
-              else value
-              end
-      struct.send("#{key}=", value)
-    end
-    struct
+    @c ||= Config.new
+    @c.get_struct.send(method)
   end
 end
