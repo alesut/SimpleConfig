@@ -30,9 +30,22 @@ module SimpleConfig
       conf = {}
       ENV.each do |key, value|
         hash = key.split('_').reverse.inject(value) { |a, e| { e.downcase => a } }
-        conf.merge! hash if hash.is_a?(Hash)
+        deep_merge(conf, hash) if hash.is_a?(Hash)
       end
       conf
+    end
+
+    def deep_merge(first, second)
+      merger = proc do |_key, v1, v2|
+        if v1.is_a?(Hash) && v2.is_a?(Hash)
+          v1.merge(v2, &merger)
+        elsif v1.is_a?(Array) && v2.is_a?(Array)
+          v1 | v2
+        else
+          [:undefined, nil, :nil].include?(v2) ? v1 : v2
+        end
+      end
+      first.merge!(second.to_h, &merger)
     end
   end
 
