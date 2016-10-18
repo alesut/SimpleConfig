@@ -42,6 +42,14 @@ erb: <%= String %>
     expect(subject.item.sub2).to eq 'value2'
   end
 
+  it 'ENV_SimpleTest bool' do
+    allow(ENV).to receive(:each)
+      .and_yield('ITEM_FALSE', 'false')
+      .and_yield('ITEM_TRUE', 'true')
+    expect(subject.item.false).to eq false
+    expect(subject.item.true).to eq true
+  end
+
   it 'YML/ENV_SimpleTest' do
     allow(File).to receive(:read).and_return %(
 --
