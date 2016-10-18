@@ -29,6 +29,8 @@ module SimpleConfig
     def env_conf
       conf = {}
       ENV.each do |key, value|
+        value = true  if value == 'true'
+        value = false if value == 'false'
         hash = key.split('_').reverse.inject(value) { |a, e| { e.downcase => a } }
         deep_merge(conf, hash) if hash.is_a?(Hash)
       end
