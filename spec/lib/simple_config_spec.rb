@@ -51,21 +51,33 @@ erb: <%= String %>
   end
 
   it 'YML/ENV_SimpleTest' do
+    allow(File).to receive(:file?).and_return true
     allow(File).to receive(:read).and_return %(
---
-item: value
+---
+file: yml
+over: yml
 )
-    allow(ENV).to receive(:each).and_yield('ITEM', 'override_value')
-    expect(subject.item).to eq 'override_value'
+    allow(ENV).to receive(:each)
+      .and_yield('ENV', 'env')
+      .and_yield('OVER', 'env')
+    expect(subject.file).to eq 'yml'
+    expect(subject.env).to eq 'env'
+    expect(subject.over).to eq 'env'
   end
 
   it 'YML/ENV_SimpleTest with sub' do
+    allow(File).to receive(:file?).and_return true
     allow(File).to receive(:read).and_return %(
 ---
 item:
-  sub: value
+  file: yml
+  over: yml
 )
-    allow(ENV).to receive(:each).and_yield('ITEM_SUB', 'override_value')
-    expect(subject.item.sub).to eq 'override_value'
+    allow(ENV).to receive(:each)
+      .and_yield('ITEM_ENV', 'env')
+      .and_yield('ITEM_OVER', 'env')
+    expect(subject.item.file).to eq 'yml'
+    expect(subject.item.env).to eq 'env'
+    expect(subject.item.over).to eq 'env'
   end
 end

@@ -7,7 +7,7 @@ module SimpleConfig
   # Config class
   class Config
     def initialize
-      @config = yml_conf.merge env_conf
+      @config = deep_merge(yml_conf, env_conf)
     end
 
     def get_struct(config = @config)
