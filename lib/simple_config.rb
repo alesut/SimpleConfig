@@ -29,12 +29,21 @@ module SimpleConfig
     def env_conf
       conf = {}
       ENV.each do |key, value|
-        value = true  if value == 'true'
-        value = false if value == 'false'
+        value = typing(value)
         hash = key.split('_').reverse.inject(value) { |a, e| { e.downcase => a } }
         deep_merge(conf, hash) if hash.is_a?(Hash)
       end
       conf
+    end
+
+    def typing(value)
+      case value
+      when 'true' then true
+      when 'false' then false
+      when value.to_i.to_s then value.to_i
+      when value.to_f.to_s then value.to_f
+      else value
+      end
     end
 
     def deep_merge(first, second)

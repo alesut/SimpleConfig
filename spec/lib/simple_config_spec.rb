@@ -80,4 +80,29 @@ item:
     expect(subject.item.env).to eq 'env'
     expect(subject.item.over).to eq 'env'
   end
+  it 'check typing' do
+    allow(File).to receive(:file?).and_return true
+    allow(File).to receive(:read).and_return %(
+---
+yml:
+  bool: true
+  fixnum: 123
+  float: 123.01
+  string: string
+)
+    allow(ENV).to receive(:each)
+      .and_yield('ENV_BOOL', 'true')
+      .and_yield('ENV_FIXNUM', '123')
+      .and_yield('ENV_FLOAT', '123.01')
+      .and_yield('ENV_STRING', 'string')
+    expect(subject.yml.bool.class).to eq TrueClass
+    expect(subject.yml.fixnum.class).to eq Fixnum
+    expect(subject.yml.float.class).to eq Float
+    expect(subject.yml.string.class).to eq String
+
+    expect(subject.env.bool.class).to eq TrueClass
+    expect(subject.env.fixnum.class).to eq Fixnum
+    expect(subject.env.float.class).to eq Float
+    expect(subject.env.string.class).to eq String
+  end
 end
